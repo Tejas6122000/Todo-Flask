@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+
+{% block head %} 
+<title>Todo List</title>
+<link rel="stylesheet" href="{{ url_for('static',filename='css/main.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+{% endblock %}
+
+
+
+{% block body %} 
+<div id="main">
+
+    <header>Todo WebApp</header>
+    <div class="ip">
+        {% if etask %}
+        <form action="/todolist/edit/{{etask.id}}" method="POST">
+            <input type="text" name="task" id="task" value="{{etask.task}}">
+            <button name="submit" value="Edit" class="btn edit"><i class="fas fa-edit"></i></button>
+            <button name="submit" value="Search" class="btn search nohover" disabled><i class="fas fa-search"></i></button>
+        </form>
+        
+        {% else %}
+        
+        <form action="/todolist" method="POST">
+            <input type="text" name="task" id="task">
+           <button name="submit" value="Submit" class="btn submit"><i class="fas fa-plus"></i></button>
+            <button name="submit" value="Search" class="btn search "><i class="fas fa-search"></i></button>
+
+        </form>
+        
+        {% endif %}
+
+    </div>
+
+    <ul class="list"></ul>
+
+    
+
+    {% for task in tasks %}    
+  
+        <li>
+            {{task.task}} 
+            <a href="/todolist/delete/{{task.id}}" class="trash"><span class="icon"><i class="fas fa-trash"></i></span></a>
+            <a href="/todolist/edit/{{task.id}}" class="edicon"><span class="icon"><i class="fas fa-edit"></i></span></a>
+        </li>
+       
+    {% endfor %}
+    <p class="pending">Pending Tasks: {{tasks|length}} </p>
+    </ul>
+
+
+</div>
+
+
+{% endblock %}
